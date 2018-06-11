@@ -12,8 +12,7 @@ typedef struct {
     rpi_reg_ro_t    Reserved1;
     rpi_reg_wo_t    GPCLR[2];
     rpi_reg_ro_t    Reserved2;
-    rpi_reg_wo_t    GPLEV0;
-    rpi_reg_wo_t    GPLEV1;
+    rpi_reg_wo_t    GPLEV[2];
     rpi_reg_ro_t    Reserved3;
     rpi_reg_wo_t    GPEDS0;
     rpi_reg_wo_t    GPEDS1;
@@ -60,5 +59,8 @@ inline void gpio_off(gpio_t pin)
     rpiGpio->GPCLR[pin.num/32] = (pin.func << (pin.num%32));
 }
 
+inline int gpio_read(gpio_t pin){
+    return ( rpiGpio->GPLEV[pin.num/32] & (1 << (pin.num%32)) ) ;
+}
 
 

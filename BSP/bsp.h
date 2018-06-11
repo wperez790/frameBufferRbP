@@ -8,4 +8,5 @@
  void bsp_init();
  void led_off( leds_t pin);
  void led_on( leds_t pin);
+ int boton_read(int pin);
  void delay_ms(uint32_t ms);

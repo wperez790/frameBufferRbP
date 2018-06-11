@@ -1,0 +1,95 @@
+#include "BSP/bsp.h"
+#include "BSP/HAL/gpu.h"
+#include "BSP/characters.h"
+
+
+#define SCREEN_WIDTH    640	
+#define SCREEN_HEIGHT   480
+#define SCREEN_BPP      16  
+int y;
+int x;
+int row=0;
+int col=0;
+
+uint32_t screenMatrix[SCREEN_HEIGHT][SCREEN_WIDTH];
+/*Prototype*/
+void cargarMetroid(int posX, int posY, int width);
+
+
+int notmain ( void )
+{
+    
+    bsp_init();
+    int posX=0;
+    int posY;
+    //
+    struct img_t metroid;
+    metroid.width = 25;
+    metroid.height = 48;
+    
+
+    
+    // Checkerboard pattern
+    uint16_t* screen = gpu_init(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP);
+   
+
+    //inicializar screen
+        int i;
+        int j;
+  
+    //
+
+    while(1){
+          for(i=0; i<SCREEN_HEIGHT ; i++){
+        for(j=0 ; j<SCREEN_WIDTH; j++){
+            screenMatrix[i][j]= 0xffffff;
+        }
+    }
+
+        posY= SCREEN_HEIGHT-metroid.height;
+        cargarMetroid(posX, posY, metroid.width);
+            if(posX < SCREEN_WIDTH){
+            posX++;
+            }
+
+
+        for (y=0 ; y<SCREEN_HEIGHT ; y++) {
+            for (x=0 ; x<SCREEN_WIDTH ; x++) {
+                
+                screen[y*SCREEN_WIDTH+x] = screenMatrix[y][x];
+
+
+        }
+        
+      
+    }
+
+
+
+    
+}
+
+
+return(0);
+
+}
+
+
+
+void cargarMetroid(int posX, int posY, int width){
+    int i;
+    int j; 
+    int k= 0;
+    int l= 0;
+    for(i=posY ; i<SCREEN_HEIGHT; i++){
+        for(j=posX ; j< posX+width && posX+width < SCREEN_WIDTH; j++){
+            screenMatrix[i][j]= metroidMatrix[k][l];
+            l++;
+        }
+        k++;
+        l=0;
+    } 
+
+}
+
+
